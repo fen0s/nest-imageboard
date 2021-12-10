@@ -26,14 +26,16 @@ export class BoardService {
   async getThreads(id: number) {
     let board: Board = await this.boardModel.findByPk(id);
     let threads = await board.$get('threads');
+    let threadsJSON = []
     for(let thread of threads){
       
       let replies = await thread.$get('replies')
       thread = await thread.toJSON()
       thread.replies = replies
+      threadsJSON.push(thread)
       
     }
-    return threads
+    return threadsJSON
     
   }
 
